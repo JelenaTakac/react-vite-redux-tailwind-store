@@ -12,6 +12,10 @@ const router = createBrowserRouter([
                 element: <Landing />
             },
             {
+                path: "about",
+                element: <About />
+            },
+            {
                 path: "products",
                 element: <Products />
             },
@@ -24,10 +28,6 @@ const router = createBrowserRouter([
                 element: <Cart />
             },
             {
-                path: "about",
-                element: <About />
-            },
-            {
                 path: "checkout",
                 element: <Checkout />
             },
@@ -38,12 +38,12 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "./login",
+        path: "/login",
         element: <Login />,
         errorElement: <Error />
     },
     {
-        path: "./register",
+        path: "/register",
         element: <Register />,
         errorElement: <Error />
     }
