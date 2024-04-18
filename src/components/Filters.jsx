@@ -1,6 +1,7 @@
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormRange from "./FormRange";
+import FormCheckbox from "./FormCheckbox";
 import { Form, useLoaderData, Link } from "react-router-dom";
 
 const Filters = () => {
@@ -42,7 +43,13 @@ const Filters = () => {
             naem="price"
             size="range-sm"
             />
-            
+
+            <FormCheckbox 
+            label="free shipping"
+            name="shipping"
+            size="checkbox-sm"
+            />
+
             <button type="submit" className="btn btn-primary btn-sm">search</button>
             <Link to={"/products"} className="btn btn-accent btn-sm">reset</Link>
         </Form>
