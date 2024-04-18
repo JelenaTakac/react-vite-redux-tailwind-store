@@ -6,9 +6,7 @@ import { useState } from "react";
 export const loader = async ({ params }) => {
     const response = await customFetch(`/products/${params.id}`);
     const product = response.data.data;
-    console.log(product);
     return {product};
-    // return { product: response.data.data }
 }
 
 const SingleProduct = () => {
@@ -17,6 +15,16 @@ const SingleProduct = () => {
     const dollarsAmount = formatPrice(price);
     const [productColor, setProductColor] = useState(colors[0]);
     const [amount, setAmount] = useState(1);
+
+    const handleIncrementAmount = () => {
+        setAmount(prevState => prevState + 1)
+    }
+
+    const handelDecrementAmount = () => {
+        if (amount > 1) {
+            setAmount(prevState => prevState - 1)
+        }
+    }
 
     return (
         <section>
@@ -61,13 +69,13 @@ const SingleProduct = () => {
                             <label className=" label">
                                 <h4 className="text-md font-medium tracking-wider capitalize">amount</h4>
                             </label>
-                            <button className="btn btn-sm btn-circle btn-outline">-</button>
+                            <button className="btn btn-sm btn-circle btn-outline" onClick={handelDecrementAmount}>-</button>
                             <span className=" px-2 font-bold">{amount}</span>
-                            <button className="btn btn-sm btn-circle btn-outline">+</button>
+                            <button className="btn btn-sm btn-circle btn-outline" onClick={handleIncrementAmount}>+</button>
                     </div>
 
                     <div className="mt-10">
-                        <button className="btn btn-secondary btn-md">
+                        <button className="btn btn-secondary btn-md uppercase">
                             Add to bag
                         </button>
                     </div>
