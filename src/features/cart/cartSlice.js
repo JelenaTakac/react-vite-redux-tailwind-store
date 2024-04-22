@@ -9,9 +9,11 @@ const defaultState = {
   orderTotal: 0,
 };
 
+const getFromLocalStorage = JSON.parse(localStorage.getItem("cart"));
+
 const cartSlice = createSlice({
   name: "cart",
-  initialState: defaultState,
+  initialState: getFromLocalStorage || defaultState,
   // reducer functions
   reducers: {
     addItem: (state, action) => {
