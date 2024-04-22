@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useReducer } from "react";
 
 const defaultState = {
   cartItems: [],
@@ -16,7 +15,20 @@ const cartSlice = createSlice({
   // reducer functions
   reducers: {
     addItem: (state, action) => {
-      console.log(action.payload);
+      const { product } = action.payload;
+      const item = state.cartItems.find(
+        (productItem) => productItem.cartID === product.cartID
+      );
+      if (item) {
+        item.amount += product.amount;
+      } else {
+        state.cartItems.push(product);
+      }
+      state.numItemsInCart += product.amount;
+      state.cartTotal += product.amount * product.price;
+      state.tax = state.cartTotal * 0.1;
+      state.orderTotal = state.cartTotal + state.shipping + state.tax;
+      localStorage.setItem("cart", JSON.stringify(state));
     },
     clearCart: (state) => {},
     removeItem: (state, action) => {},
