@@ -32,11 +32,39 @@ const cartSlice = createSlice({
       state.tax = state.cartTotal * 0.1;
       state.orderTotal = state.cartTotal + state.shipping + state.tax;
       localStorage.setItem("cart", JSON.stringify(state));
-      toast.success("item added to cart");
+      toast.success("Item added to cart");
     },
-    clearCart: (state) => {},
-    removeItem: (state, action) => {},
-    editItem: (state, action) => {},
+    clearCart: (state) => {
+      localStorage.setItem("cart", JSON.stringify(defaultState));
+      return defaultState;
+    },
+    removeItem: (state, action) => {
+      const { cartID } = action.payload;
+      const product = state.cartItems.find(
+        (productItem) => productItem.cartID === cartID
+      );
+      state.cartItems.filter((i) => i.cartID !== cartID);
+
+      state.numItemsInCart -= product.amount;
+      state.cartTotal -= product.amount * product.price;
+      state.tax = 0.1 * state.cartTotal;
+      state.orderTotal = state.cartTotal + state.shipping + state.tax;
+      localStorage.setItem("cart", JSON.stringify(state));
+      toast.error("Item removed from cart");
+    },
+    editItem: (state, action) => {
+      const { cartID, amount } = action.payload;
+      const product = state.cartItems.find(
+        (productItem) => productItem.cartID === cartID
+      );
+      state.numItemsInCart += amount - product.amount;
+      state.cartTotal += product.price * (amount - product.amount);
+      product.amount = amount;
+      state.tax = 0.1 * state.cartTotal;
+      state.orderTotal = state.cartTotal + state.shipping + state.tax;
+      localStorage.setItem("cart", JSON.stringify(state));
+      toast.success("Cart updated");
+    },
   },
 });
 
