@@ -1,6 +1,6 @@
-import { formatPrice } from "../utils";
 import { removeItem, editItem } from "../features/cart/cartSlice";
 import { useDispatch } from "react-redux";
+import { formatPrice, generateAmountOptions } from "../utils";
 
 const CartItem = ({ cartItem }) => {
     const dispatch = useDispatch();
@@ -9,9 +9,9 @@ const CartItem = ({ cartItem }) => {
         dispatch(removeItem({cartID}));
     }
     
-    const handleAmount = () => {
-        dispatch(editItem({amount, cartID}));
-    }
+  const handleAmount = (e) => {
+    dispatch(editItem({ cartID, amount: parseInt(e.target.value) }));
+  };
     
     const { cartID, title, price, image, amount, company, productColor } = cartItem;
 
@@ -26,25 +26,23 @@ const CartItem = ({ cartItem }) => {
                 </p>
             </div>
             <div className="sm:ml-12">
-                <div className='form-control max-w-xs'>
-                    <label htmlFor='amount' className='label p-0'>
-                        <span className='label-text'>Amount</span>
+                <div className="form-control max-w-xs">
+                    <label htmlFor="amount" className="label p-0">
+                        <span className="label-text">Amount</span>
                     </label>
                     <select
-                        name='amount'
-                        id='amount'
-                        className='mt-2 select select-base select-bordered select-xs'
+                        name="amount"
+                        id="amount"
+                        className="mt-2 select select-base select-bordered select-xs"
                         value={amount}
                         onChange={handleAmount}
                     >
-                        <option key={amount} value={amount}>
-                            {amount}
-                        </option>
+                        {generateAmountOptions(amount + 5)}
                     </select>
                 </div>
+                <button className="mt-2 link link-primary link-hover text-sm" onClick={removeItemFromTheCart}>Remove</button>
             </div>
-            <button className="mt-2 link link-primary link-hover text-sm" onClick={removeItemFromTheCart}>Remove</button>
-            <p className="font-medium sm:ml-auto">{price}</p>
+            <p className="font-medium sm:ml-auto">{formatPrice(price)}</p>
         </article>
     )
 }
