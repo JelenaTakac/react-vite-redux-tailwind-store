@@ -37,7 +37,6 @@ const Register = () => {
                 </p>
             </Form>
         </section>
-
     )
 }
 
